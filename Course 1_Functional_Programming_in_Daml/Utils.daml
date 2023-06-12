@@ -1,0 +1,8 @@
+module Utils where
+import Daml.Script
+multiple: Int -> Int -> Int
+multiple x y = x*y
+testH: Script()
+testH = script do
+  debug(multiple 2 4 )
+  
