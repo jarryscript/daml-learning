@@ -1,4 +1,4 @@
-module Lab3 where
+module Lab3_TypeClasses_and_Records where
 import Daml.Script
 -- Create a data type called Person that has two fields - name and email - both of type Text. Make Person an instance of Show, Eq, and Ord. Then test it out using the following test script:
 data Person = Person with
@@ -6,17 +6,14 @@ data Person = Person with
     email:Text
         deriving(Show, Eq, Ord)
 
-
 testPerson = script do 
     let 
         person1 = Person with 
             name = "Alice"
             email = "alice@earth.com"
-    
         person2 = Person with 
             name = "Bob"
             email = "bob@earth.com"
-
     debug person1
     debug $ person1 == person2
     debug $ person1 < person2
@@ -25,14 +22,14 @@ testPerson = script do
 -- Create a type class named Reachable that has a function named reachOut. Make the Person data type defined above an instance of Reachable. The reachOut function takes a record of Person type as an input and returns a text string that uses the Person's name and email. For example, if a Person record has name as "Alice" and email as "alice@earth.com", then reachOut function should return:
 class Reachable person msg where
     reachOut: person->msg
+
 instance Reachable Person Text where
-    reachOut person =  "Hello"++ person.name++ " at "++ person.email 
+    reachOut person =  "Hello" <> person.name <> " at " <> person.email 
+
 testReachable = script do
     let
         myFriend = Person with 
             name = "Alice"
             email = "alice@earth.com"
-
         message: Text =  reachOut myFriend
-
     debug $ message
