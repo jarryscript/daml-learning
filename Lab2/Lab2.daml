@@ -1,0 +1,34 @@
+module Lab2.Lab2 where
+import Daml.Script
+import DA.List as List
+import DA.Map as Map
+import DA.Text as Text
+
+lab: Script()
+lab = script do
+    let 
+        song = [("do", "a deer, a female deer"), ("re", "a drop of golden sun"), ("mi", "a name, I call myself"), ("fa", "a long long way to run")]
+        songMap: Map Text Text
+        songMap = fromList song
+    debug $ List.reverse (keys songMap)
+    debug $ List.reverse (values songMap)
+    debug $ keys songMap
+    debug $ values songMap
+    debug $ Map.lookup "do" songMap
+    debug $ Map.lookup "re" songMap
+    debug $ Map.lookup "mi" songMap
+    debug $ Map.lookup "fa" songMap
+
+-- Write a function named termFrequency that takes a word and a string of words and returns the frequency of that word in the string
+termFrequency: Text->Text->Decimal
+termFrequency word string =
+    let
+        words = Text.words string
+        wordsFiltered = List.filter (== word) words
+        wordCount = List.length words
+        wordsFilteredLength = List.length wordsFiltered
+    in intToDecimal wordsFilteredLength/ intToDecimal wordCount
+
+testTermFrequency:Script()
+testTermFrequency = script do
+    debug $ termFrequency "long" "a long long way to run"
