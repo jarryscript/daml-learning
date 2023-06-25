@@ -1,1 +1,0 @@
-# Lab0 hello world
