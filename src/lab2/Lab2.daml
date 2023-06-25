@@ -1,4 +1,4 @@
-module Lab2_Collection_Data_Structures where
+module Lab2 where
 import Daml.Script
 import DA.List as List
 import DA.Map as Map

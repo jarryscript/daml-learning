@@ -1,4 +1,4 @@
-module Functions where
+module Lab1 where
 import Daml.Script
 
 -- Course 1: Functional Programming in Daml

@@ -1,12 +1,8 @@
 -- Lab5
 module Lab5 where
 import Daml.Script
--- Learning objective: To control program flow using iterative functions.
+import ../lab2/(termFrequency)
 
--- Prerequisite
-
--- Daml SDK installed and setup
--- Daml Fundamentals Training: Functional Programming in Daml - Lessons 1 to 10 completed.
 -- ===========================================================================================================================
 -- Problem statement 1 =======================================================================================================
 -- ===========================================================================================================================
@@ -29,6 +25,7 @@ testMap : Script()
 testMap =
     let
         song = [("do", "a deer, a female deer"), ("re", "a drop of golden sun"), ("mi", "a name, I call myself"), ("fa", "a long long way to run")]
+    in 1
     -- map (\) song
 -- ===========================================================================================================================
 -- Problem statement 2 =======================================================================================================
@@ -38,17 +35,21 @@ testMap =
 -- Using the map function, write a function named multiTermFrequency that takes a Text, say x, and a list of Texts, say y, as input. It then returns a list of numbers with each number at index i representing the frequency of x in the i-th element in y.
 
 -- Here is a script to test your function:
+multiTermFrequency: Text->[Text]->[Decimal]
+multiTermFrequency x y= map (\ele -> termFrequency x ele) y
 
--- testMultiTermFrequency = script do 
---     let x = "hello"
---     let y = [ "hello from the other side I must have called a thousand times", 
---             "You say goodbye and I say hello hello hello",
---             "hello is it me you’re looking for",
---             "hello hello is anyone home"
---             ]
+    
+testMultiTermFrequency:Script()
+testMultiTermFrequency = script do 
+    let x = "hello"
+    let y = [ "hello from the other side I must have called a thousand times", 
+            "You say goodbye and I say hello hello hello",
+            "hello is it me you’re looking for",
+            "hello hello is anyone home"
+            ]
 
---     debug $ multiTermFrequency x y
---     return()
+    debug $ multiTermFrequency x y
+    return()
 -- It should produce the following output:
 
 -- Trace: 

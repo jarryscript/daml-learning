@@ -1,4 +1,4 @@
-module Lab4_conditional_flow where
+module Lab4 where
 import Daml.Script
 import DA.Math as Math
 -- Problem Statement 1
