@@ -3,7 +3,7 @@
 
 sdk-version: 2.6.4
 name: learnDaml
-source: daml
+source: lab
 init-script: Main:setup
 version: 0.0.1
 dependencies:

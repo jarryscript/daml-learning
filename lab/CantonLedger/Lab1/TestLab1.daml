@@ -1,0 +1,87 @@
+module CantonLedger.Lab1.TestLab1 where 
+
+import Daml.Script
+import CantonLedger.Lab1.CLPApplication
+import DA.Date (toDateUTC, date, Month(Jan), Month(Mar))
+import DA.Time (time)
+
+testSubmitAndAcceptCLPApplication: Script () 
+testSubmitAndAcceptCLPApplication = script do 
+    alice <- allocateParty "Alice"
+    airline <- allocateParty "Epic Airlines"
+    now <- getTime 
+
+    -- Alice creates a blank CLPApplication
+    aliceCLPAppId <- submit alice do         
+        createCmd CLPApplication with  
+            customer = alice 
+            airline = airline 
+            name = ""
+            address = ""
+            email = ""
+            phone = Some ""
+            appTimestamp = now 
+            dob = toDateUTC now
+
+    -- Alice submits the application with details filled in
+    aliceCLPAppId <- submit alice do 
+        exerciseCmd aliceCLPAppId SubmitApplication 
+            with
+                appCustomer = alice 
+                appAirline = airline
+                customerName = "Alice"
+                customerAddress = "123 Main St ABCD"
+                customerEmail = "alice@wonderland.io"
+                customerPhone = Some "+01-555-555-1234"
+                now = time (date 2023 Mar 01) 10 30 0
+                customerDob = date 2000 Jan 05                
+
+    -- Airline accepts the application and creates a CLP account with Alice's data
+    aliceCLPAccount <- submit airline do 
+        exerciseCmd aliceCLPAppId AcceptApplication 
+            with 
+                points = 0
+                accountTimestamp = now
+
+    return ()
+
+
+testSubmitAndRejectApplication: Script ()
+testSubmitAndRejectApplication = script do 
+    bob <- allocateParty "Bob"
+    airline <- allocateParty "Epic Airlines"
+    now <- getTime 
+
+    -- Bob creates a blank CLPApplication
+    bobCLPAppId <- submit bob do         
+        createCmd CLPApplication with  
+            customer = bob 
+            airline = airline 
+            name = ""
+            address = ""
+            email = ""
+            phone = Some ""
+            appTimestamp = now 
+            dob = toDateUTC now
+
+    -- Bob submits the application with details filled in
+    bobCLPAppId <- submit bob do 
+        exerciseCmd bobCLPAppId SubmitApplication 
+            with
+                appCustomer = bob 
+                appAirline = airline
+                customerName = "Bob"
+                customerAddress = "123 Spring St EFGH"
+                customerEmail = "bob@nomansland.io"
+                customerPhone = "+01-555-555-5678"
+                now = time (date 2023 Mar 01) 10 30 0
+                customerDob = date 2010 Jan 05   
+
+
+    -- airline rejects the application and returns a message
+    applicationResult <- submit airline do 
+        exerciseCmd bobCLPAppId RejectApplication 
+    
+    debug applicationResult
+
+    return ()

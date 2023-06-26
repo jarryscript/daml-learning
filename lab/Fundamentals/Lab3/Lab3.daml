@@ -1,4 +1,4 @@
-module Lab3 where
+module Fundamentals.Lab3.Lab3 where
 import Daml.Script
 -- Create a data type called Person that has two fields - name and email - both of type Text. Make Person an instance of Show, Eq, and Ord. Then test it out using the following test script:
 data Person = Person with
